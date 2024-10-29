@@ -30,9 +30,9 @@ public class Stack {
             top = top.next;
             return c;
         }
-        else return ' ';
+        else return 0;
     }
-    public int peek(){
+    public char peek(){
         if (!isEmpty()){
             return top.data;
         }
