@@ -14,9 +14,10 @@ public class Parser {
     static String parse(String expression){
         String output = ""; //create empty string for output
         Stack operators = new Stack(); //create stack for operators
+        char c;
         //iterate through the expression
         for (int i = 0; i < expression.length(); i++){
-            char c = expression.charAt(i);
+            c = expression.charAt(i);
             //check if the char is a letter. add letter to the output
             if (Character.isLetterOrDigit(c)){
                 output += c;
