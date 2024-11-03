@@ -145,10 +145,17 @@ public class TruthTable {
                 c = col ? 'T' : 'F';
                 System.out.print(c + " | ");
             }
+
             for(int i =0; i < expressonsArray.length; i++){
-                o = evaluateExpression(row, Parser.parse(expressonsArray[i])) ? "T" : "F";
-                for (int j = 0; j < expressonsArray[i].length(); j++){
-                    o += " ";
+                int middle = expressonsArray[i].length()/2;
+                o = "";
+                for (int j = 0; j <= expressonsArray[i].length(); j++){
+                    if(j == middle) {
+                        o += evaluateExpression(row, Parser.parse(expressonsArray[i])) ? "T" : "F";
+                    }
+                    else {
+                        o += " ";
+                    }
                 }
                 System.out.print(o + "| ");
             }
