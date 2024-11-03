@@ -13,7 +13,7 @@ public class Parser {
     // this method is used to parse the infix expression into a postfix expression.
     static String parse(String expression){
         String output = ""; //create empty string for output
-        Stack operators = new Stack(); //create stack for operators
+        Stack<Character> operators = new Stack<>(); //create stack for operators
         char c;
         //iterate through the expression
         for (int i = 0; i < expression.length(); i++){

@@ -1,44 +1,37 @@
-class Node {
-    public char data;
-    public Node next;
-    Node(char data) {
-        this.data = data;
-        this.next = null;
-    }
-}
-public class Stack {
-    private Node top;
+
+public class Stack<E> {
+    private Node<E> top;
     Stack(){
         this.top = null;
     }
     public boolean isEmpty(){
         return (this.top == null);
     }
-    public void push(char val){
+    public void push(E val){
         if (isEmpty()){
-            top = new Node(val);
+            top = new Node<E>(val);
         }
         else{
-            Node temp = new Node(val);
+            Node<E> temp = new Node<E>(val);
             temp.next = top;
             this.top = temp;
         }
     }
-    public char pop(){
+    public E pop(){
         if (!isEmpty()){
-            char c = top.data;
+            E c = top.data;
             top = top.next;
             return c;
         }
-        else return 0;
+        else return null;
     }
-    public char peek(){
+    public E peek(){
         if (!isEmpty()){
             return top.data;
         }
         else {
             System.out.println("Stack is empty");
-            return 0;
+            return null;
         }
     }
 }
