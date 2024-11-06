@@ -55,7 +55,7 @@ public class TruthTable {
         return stack.pop() == '1';
     }
     private Queue decomposeExpression(){
-        Queue expression = new Queue();
+        Queue<String> expression = new Queue<>();
         Stack<String> stack = new Stack<>();
         char c;
         String x,y;
@@ -124,7 +124,7 @@ public class TruthTable {
         }
     }
     public void printExpandedTable(){
-        Queue expressions = decomposeExpression();
+        Queue<String> expressions = decomposeExpression();
         String[] expressonsArray = new String[expressions.length()];
         int length = expressions.length();
         String o;

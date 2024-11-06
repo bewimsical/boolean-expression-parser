@@ -1,27 +1,19 @@
 
-public class Queue {
-    class Node {
-        public String data;
-        public Node next;
-        Node(String data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
-    private Node head;
+public class Queue<E> {
+    private Node<E> head;
     public  Queue(){
         head = null;
     }
     public boolean isEmpty(){
         return (head == null);
     }
-    public boolean enQueue(String val){
+    public boolean enQueue(E val){
         if (isEmpty()){
             head = new Node(val);
             return  true;
         }
         else{
-            Node current = head;
+            Node<E> current = head;
             while(current.next != null){
                 current = current.next;
             }
@@ -29,24 +21,24 @@ public class Queue {
             return true;
         }
     }
-    public String deQueue(){
+    public E deQueue(){
         if (!isEmpty()){
-            String s = head.data;
+            E s = head.data;
             head = head.next;
             return s;
         }
         else {
             System.out.println("queue is empty");
-            return "EMPTY";
+            return null;
         }
     }
-    public String peek(){
+    public E peek(){
         if (!isEmpty()){
             return head.data;
         }
         else {
             System.out.println("Queue is empty");
-            return "EMPTY";
+            return null;
         }
     }
     public int length(){
