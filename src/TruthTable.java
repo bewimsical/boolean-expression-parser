@@ -149,7 +149,7 @@ public class TruthTable {
             System.out.println(s);
         }
     }
-    // Prints the truth table with additional columns for each sub-expression
+    // Prints the truth table with additional columns for each sub-expression - EXTRA POINTS
     public void printExpandedTable(){
         Queue<String> expressions = decomposeExpression();
         String[] expressionArray = new String[expressions.length()];
