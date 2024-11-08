@@ -1,9 +1,10 @@
 public class TruthTable {
-    private String key;
-    private final String infix;
-    private final String postfix;
-    private boolean [][] values;
-    private int count = 0;
+    private String key; // Stores unique variables in the expression
+    private final String infix; // Stores the original infix expression
+    private final String postfix; // Stores the postfix version of the expression
+    private boolean [][] values;  // Stores boolean values for each row of the truth table
+    private int count = 0; // Counts rows in the truth table while assigning values
+    // Constructor that initializes the truth table for a given logical expression
     public TruthTable(String expression){
         this.postfix = Parser.parse(expression);
         this.infix = expression;
@@ -11,7 +12,7 @@ public class TruthTable {
         this.values = new boolean[(int)Math.pow(2,(double)key.length())][key.length()];
         generateKeyTable(key.length(), 0, new boolean[key.length()]);
     }
-
+    // Generates a unique key with all variables in the expression, excluding duplicates
     private String generateKey(){
         String key = "";
         for (int i = 0; i < this.postfix.length(); i++){
@@ -22,6 +23,7 @@ public class TruthTable {
         }
         return key;
     }
+    // Evaluates the expression for a specific row of boolean values
     private boolean evaluateExpression( boolean[] values, String expression){
         Stack<Character> stack  = new Stack<>();
         char c;
@@ -54,8 +56,9 @@ public class TruthTable {
         }
         return stack.pop() == '1';
     }
-    private Queue decomposeExpression(){
-        Queue<String> expression = new Queue<>();
+    // Decomposes postfix expression to display each sub-expression. Returns a queue containing sub expressions
+    private Queue<String> decomposeExpression(){
+        Queue<String> expression = new Queue<>();// Queue to store sub-expressions
         Stack<String> stack = new Stack<>();
         char c;
         String x,y;
@@ -91,10 +94,11 @@ public class TruthTable {
         }
         return expression;
     }
+    //RECURSIVE method to generate all possible combinations of boolean values. - EXTRA CREDIT
     private void generateKeyTable(int size, int index, boolean [] row){
         if (index == size){
             for(int i = 0; i < size; i++) {
-                this.values[count][i] = row[i];
+                this.values[count][i] = row[i];// Adds row to truth table
             }
             count++;
 
@@ -106,58 +110,102 @@ public class TruthTable {
             }
         }
     }
-
+    // Prints the truth table with values of each variable and final expression result
     public void printTable(){
         char o;
+        String s;
         for (int i = 0; i < key.length(); i++){
-            System.out.print(key.charAt(i) + " | ");
+            System.out.print(key.charAt(i) + " │ ");
         }
         System.out.println(infix);
+        System.out.print("──");
+        for (int i = 0; i < key.length(); i++){
+            System.out.print("┼");
+            if(i < key.length() - 1) {
+                System.out.print("───");
+            }
+        }
+        for (int i = 0; i < infix.length() +2; i++){
+            System.out.print("─");
+        }
 
+
+        System.out.println();
         for (boolean[] row: values){
             for(boolean col:row){
                 o = col ? 'T':'F';
-                System.out.print(o + " | ");
+                System.out.print(o + " │ ");
             }
-            o = evaluateExpression(row, this.postfix) ? 'T' : 'F';
-            System.out.println(o);
+            int middle = this.postfix.length()/2;
+            s = "";
+            for (int j = 0; j <= this.postfix.length(); j++){
+                if(j == middle) {
+                    s += evaluateExpression(row, this.postfix) ? "T" : "F";
+                }
+                else {
+                    s += " ";
+                }
+            }
+            System.out.println(s);
         }
     }
+    // Prints the truth table with additional columns for each sub-expression
     public void printExpandedTable(){
         Queue<String> expressions = decomposeExpression();
-        String[] expressonsArray = new String[expressions.length()];
+        String[] expressionArray = new String[expressions.length()];
         int length = expressions.length();
         String o;
         char c;
 
         for (int i = 0; i < key.length(); i++){
-            System.out.print(key.charAt(i) + " | ");
+            System.out.print(key.charAt(i) + " │ ");
         }
         for(int i = 0; i < length; i++){
             o = expressions.deQueue();
-            expressonsArray[i] = o;
-            System.out.print(o + " | ");
+            expressionArray[i] = o;
+            System.out.print(o);
+            if (i < length -1) {
+                System.out.print(" │ ");
+            }
         }
         System.out.println();
-
+        System.out.print("──");
+        for (int i = 0; i < key.length(); i++) {
+            System.out.print("┼");
+            if (i < key.length() - 1) {
+                System.out.print("───");
+            }
+        }
+        for(int i = 0; i < expressionArray.length; i++){
+            for(int j = 0; j < expressionArray[i].length()+2; j++){
+                System.out.print("─");
+            }
+            if(i < expressionArray.length -1){
+                System.out.print("┼");
+            }
+        }
+        System.out.println();
         for (boolean[] row: values) {
             for (boolean col : row) {
                 c = col ? 'T' : 'F';
-                System.out.print(c + " | ");
+                System.out.print(c + " │ ");
             }
 
-            for(int i =0; i < expressonsArray.length; i++){
-                int middle = expressonsArray[i].length()/2;
+            for(int i = 0; i < expressionArray.length; i++){
+                int middle = expressionArray[i].length()/2;
                 o = "";
-                for (int j = 0; j <= expressonsArray[i].length(); j++){
+                for (int j = 0; j <= expressionArray[i].length(); j++){
                     if(j == middle) {
-                        o += evaluateExpression(row, Parser.parse(expressonsArray[i])) ? "T" : "F";
+                        o += evaluateExpression(row, Parser.parse(expressionArray[i])) ? "T" : "F";
                     }
                     else {
                         o += " ";
                     }
                 }
-                System.out.print(o + "| ");
+                System.out.print(o);
+                if (i < expressionArray.length - 1){
+                    System.out.print("│ ");
+                }
             }
             System.out.println();
         }
